@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow border-0 rounded-4">
+        {% if complaint.image_filename %}
+            <img src="{{ complaint.image_filename }}" class="card-img-top" alt="Complaint Image"
+                style="max-height: 400px; object-fit: cover; border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
+        {% else %}
+            <div class="text-center bg-light py-5 rounded-top">
+                <p class="text-muted mb-0">No image available for this complaint.</p>
+            </div>
+        {% endif %}
+        <div class="card-body p-4">
+            <h2 class="card-title text-primary mb-3">{{ complaint.title }}</h2>
+            <p class="card-text fs-5"><strong>Description:</strong> {{ complaint.description }}</p>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <p><strong>Category:</strong> {{ complaint.category|default:"N/A" }}</p>
+                    <p><strong>Status:</strong> {{ complaint.status|default:"N/A" }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Location:</strong> {{ complaint.location|default:"N/A" }}</p>
+                    <p><strong>Posted By:</strong> {{ complaint.username|default:"Anonymous" }}</p>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <p class="text-muted mb-1"><strong>Posted on:</strong> {{ complaint.date_posted|date:"F d, Y H:i" }}</p>
+                <p class="text-muted"><strong>Views:</strong> {{ complaint.views }}</p>
+            </div>
+
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary mt-3">← Back to All Complaints</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

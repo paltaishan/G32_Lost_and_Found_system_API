@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+  /* Form Container */
+.form-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: form-entrance 0.6s ease-out forwards;
+}
+
+@keyframes form-entrance {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Form Elements */
+.form-title {
+  text-align: center;
+  color: #2d3748;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.form-input, .form-textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus, .form-textarea:focus {
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+  outline: none;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* File Upload Styling */
+.file-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.file-button {
+  background: #4299e1;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.file-button:hover {
+  background: #3182ce;
+}
+
+.file-text {
+  margin-left: 1rem;
+  color: #718096;
+}
+
+.file-input {
+  display: none;
+}
+
+/* Submit Button */
+.submit-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+
+.submit-button:hover {
+  background: #3182ce;
+}
+
+.hover-effect {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.3),
+    transparent
+  );
+  transition: left 0.6s;
+}
+
+.submit-button:hover .hover-effect {
+  left: 100%;
+}
+
+/* Animations */
+@keyframes animate-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: animate-fade-in 0.6s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+  <h2 class="form-title">Report a New Issue</h2>
+  
+  <form method="POST" enctype="multipart/form-data" class="complaint-form">
+    {% csrf_token %}
+    
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" name="title" id="title" class="form-input" required 
+               placeholder="Enter complaint title">
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea name="description" id="description" class="form-textarea" required
+                  placeholder="Describe the issue in detail"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="category" class="form-label">Category</label>
+        <input type="text" name="category" id="category" class="form-input" required
+               placeholder="e.g., Infrastructure, Sanitation">
+      </div>
+
+      <div class="form-group">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" name="location" id="location" class="form-input" required
+               placeholder="Enter location or address">
+      </div>
+
+      <div class="form-group full-width">
+        <label for="image_filename" class="form-label file-label">
+          <span class="file-button">Choose Image</span>
+          <span class="file-text">No file chosen</span>
+          <input type="file" name="complaint_file" id="image_filename" class="file-input">
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-button">
+      Submit Report
+      <div class="hover-effect"></div>
+    </button>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('image_filename').addEventListener('change', function(e) {
+  const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+  document.querySelector('.file-text').textContent = fileName;
+});
+</script>
+{% endblock %}

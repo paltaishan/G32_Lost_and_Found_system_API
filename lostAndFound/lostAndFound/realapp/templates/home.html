@@ -1,0 +1,62 @@
+<!-- templates/all_complaints.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>all_complaints - Lost and Found</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        .welcome-message {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .complaint-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .complaint-link a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .complaint-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Welcome to Lost and Found</h1>
+    </header>
+
+    <div class="container">
+        <div class="welcome-message">
+            <h2>Welcome, {{ user.username }}!</h2>
+            <p>Thank you for visiting our platform. You can now report lost and found items or browse through existing complaints.</p>
+        </div>
+
+        <div class="complaint-link">
+            <h3><a href="{% url 'all_complaints' %}">View All Complaints</a></h3>
+        </div>
+    </div>
+
+</body>
+</html>

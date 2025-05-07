@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}All Complaints{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .complaint-card {
+        border-radius: 15px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .complaint-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .complaint-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .complaint-body {
+        padding: 20px;
+    }
+
+    .complaint-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .complaint-meta {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .btn-action {
+        margin-right: 10px;
+    }
+
+    .add-btn {
+        margin: 20px 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-text" data-aos="fade-right">
+      <h1>When recovering your items becomes child's play!</h1>
+      <p class="subtext">Lost or found something?<br>Let us help you</p>
+      <div class="buttons" data-aos="zoom-in" data-aos-delay="300">
+
+          <button class="btn primary">I HAVE LOST</button>
+
+
+            <button class="btn secondary">I HAVE FOUND</button>
+          </a>
+      </div>
+      <a href="#" class="video-link" data-aos="fade-up" data-aos-delay="500">▶ See the process in video</a>
+    </div>
+    <div class="hero-img" data-aos="fade-left">
+      <img src="https://troov.com/images/back-to-school/bg_spring-homepage.png" alt="Hero Illustration"/>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="how-it-works" data-aos="fade-up">
+    <h2>How LostLink Help You</h2>
+    <div class="steps">
+      <div class="step" data-aos="flip-left">
+        <div class="icon">📝</div>
+        <h3>Report a lost or found item</h3>
+        <p>Fill the declaration with details (location, type, description) to help identify it quickly.</p>
+      </div>
+      <div class="step" data-aos="flip-up">
+        <div class="icon">🛡️</div>
+        <h3>Prove ownership of the item</h3>
+        <p>Answer security questions so our partners can validate that the item is yours.</p>
+      </div>
+      <div class="step" data-aos="flip-right">
+        <div class="icon">🤝</div>
+        <h3>Get it back!</h3>
+        <p>Once authenticated, receive pick-up or delivery info. Use your reference number.</p>
+      </div>
+    </div>
+  </section>
+<div class="container my-5">
+    <h1 class="mb-4 text-center">All Complaints</h1>
+
+    <div class="text-center">
+        <a href="{% url 'add_complaint' %}" class="btn btn-success add-btn">Add New Complaint</a>
+    </div>
+
+    <div class="row mt-4">
+        {% if complaints %}
+            {% for complaint in complaints %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="complaint-card">
+                        {% if complaint.image_filename %}
+                            <img src="{{ complaint.image_filename }}" alt="Complaint Image" class="complaint-img">
+                        {% endif %}
+                        <div class="complaint-body">
+                            <div class="complaint-title">{{ complaint.title }}</div>
+                            <div class="complaint-meta"><strong>Description:</strong> {{ complaint.description }}</div>
+                            <div class="complaint-meta"><strong>Category:</strong> {{ complaint.category }}</div>
+                            <div class="complaint-meta"><strong>Location:</strong> {{ complaint.location }}</div>
+                            <div class="complaint-meta"><strong>Status:</strong> {{ complaint.status }}</div>
+                            <div class="complaint-meta"><strong>Posted by:</strong> {{ complaint.username }}</div>
+                            <div class="complaint-meta"><strong>Date:</strong> {{ complaint.date_posted }}</div>
+
+                            <div class="mt-3">
+                                <a href="{% url 'view_complaint' complaint.id %}" class="btn btn-info btn-sm">View</a>
+
+                                <!-- <a href="{% url 'update_complaint' complaint.id %}" class="btn btn-primary btn-action">Update</a> -->
+                                <a href="{% url 'delete_complaint' complaint.id %}" class="btn btn-danger btn-action" onclick="return confirm('Are you sure you want to delete this complaint?');">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">No complaints found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

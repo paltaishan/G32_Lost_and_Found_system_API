@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<!-- AOS CSS -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+<style>
+    .login-container {
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 1.5rem;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 1.1rem;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 14px;
+        font-size: 1rem;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.2);
+    }
+
+    .btn-primary {
+        border-radius: 12px;
+        padding: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        background: linear-gradient(to right, #0d6efd, #5b9dfd);
+        border: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(to right, #0b5ed7, #4a8ef0);
+        transform: scale(1.02);
+    }
+
+    .text-muted a {
+        color: #0d6efd;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .text-muted a:hover {
+        text-decoration: underline;
+        color: #0a58ca;
+    }
+
+    @media (max-width: 768px) {
+        .login-card {
+            padding: 30px 20px;
+        }
+    }
+</style>
+
+<div class="container login-container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5" data-aos="zoom-in" data-aos-duration="1000">
+            <div class="card p-4 login-card bg-white">
+                <h2 class="text-center mb-4" data-aos="fade-up" data-aos-delay="200">Login</h2>
+                <form method="POST" data-aos="fade-up" data-aos-delay="400">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" name="username" id="username" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
+                </form>
+                <p class="text-center text-muted mt-4" data-aos="fade-up" data-aos-delay="600">
+                    Don't have an account? <a href="{% url 'register' %}">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AOS JS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+{% endblock %}

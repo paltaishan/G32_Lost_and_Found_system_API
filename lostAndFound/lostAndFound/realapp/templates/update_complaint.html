@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Complaint</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Optional for Icons -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #333;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            padding: 10px;
+            background-color: #f8d7da;
+            color: #721c24;
+            margin-bottom: 15px;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Update Complaint</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {% if message.tags == 'error' %}error{% else %}success{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" value="{{ complaint.title }}" required><br>
+
+        <label for="description">Description:</label>
+        <textarea name="description" id="description" required>{{ complaint.description }}</textarea><br>
+
+        <label for="category">Category:</label>
+        <input type="text" name="category" id="category" value="{{ complaint.category }}" required><br>
+
+        <label for="location">Location:</label>
+        <input type="text" name="location" id="location" value="{{ complaint.location }}" required><br>
+
+        <label for="status">Status:</label>
+        <select name="status" id="status" required>
+            <option value="open" {% if complaint.status == "open" %}selected{% endif %}>Open</option>
+            <option value="resolved" {% if complaint.status == "resolved" %}selected{% endif %}>Resolved</option>
+            <option value="pending" {% if complaint.status == "pending" %}selected{% endif %}>Pending</option>
+        </select><br>
+
+        <label for="image_filename">Upload Image (Optional):</label>
+        <input type="file" name="image_filename" id="image_filename"><br>
+
+        <button type="submit">Update Complaint</button>
+    </form>
+
+    <a href="{% url 'home' %}" style="display:block; margin-top: 15px; text-align: center;">Back to all complaints</a>
+</div>
+
+</body>
+</html>
